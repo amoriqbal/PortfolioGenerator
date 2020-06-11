@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const adminConn=require('../adminMongoConn')
 
 const qualificationSchema= new mongoose.Schema({
     name:String,
@@ -8,4 +9,4 @@ const qualificationSchema= new mongoose.Schema({
     grade:String
 })
 
-module.exports=mongoose.model('qualification',qualificationSchema)
+module.exports=adminConn.model('qualification',qualificationSchema)
