@@ -5,7 +5,6 @@ Router.post("/insertuser", async (req,res)=>{
     //res.send("hi")
     try{
         const user=req.body.user
-        console.log(req.body)
         await insertNewUser(user)
         res.sendStatus(200)
     } catch (error){
