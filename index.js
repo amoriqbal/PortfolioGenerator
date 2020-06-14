@@ -1,9 +1,18 @@
 const express = require('express')
 const config = require('./config/config')
-const adminConn= require('./adminMongoConn')
+const mongoose=require('mongoose')
 const routes=require('./routes/allRoutes')
 const bodyParser = require('body-parser')
 
+try{
+mongoose.connect(config.mongodbURI,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+})
+} catch(error) {
+    console.log("mongo conn error",error)
+    throw error
+}
 const app=express()
 
 app.use(bodyParser.json())
@@ -16,3 +25,4 @@ app.listen(config.port,(error)=>{
         console.log("Backend running on port ", config.port)
     }
 })
+

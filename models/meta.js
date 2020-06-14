@@ -2,7 +2,6 @@ const mongoose=require('mongoose')
 const qualification=require('./qualification')
 const work = require('./work')
 const achievement=require('./achievement')
-const adminConn=require('../adminMongoConn')
 
 const metaScahema=mongoose.Schema({
     name:String,
@@ -12,7 +11,7 @@ const metaScahema=mongoose.Schema({
     photoURI:String
 })
 
-const model=adminConn.model('meta',metaScahema)
+const model=mongoose.model('meta',metaScahema)
 
 function defaultValue(){
     return new model({

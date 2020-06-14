@@ -1,14 +1,14 @@
 const mongoose=require('mongoose')
 const meta=require('./meta')
-const adminConn=require('../adminMongoConn')
 
 const userSchema= new mongoose.Schema({
+    uname:String,
     email:String,
     pass:String,
     meta:{type:mongoose.Types.ObjectId,ref:'meta'}
 })
 
-const model=adminConn.model('user',userSchema);
+const model=mongoose.model('user',userSchema);
 
 function defaultValue(){
     return new model({

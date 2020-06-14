@@ -1,5 +1,4 @@
 const mongoose=require('mongoose');
-const adminConn=require('../adminMongoConn')
 
 const workSchema=mongoose.Schema({
     description:String,
@@ -7,4 +6,4 @@ const workSchema=mongoose.Schema({
     endDate:Date,
 })
 
-module.exports=adminConn.model('work',workSchema)
+module.exports=mongoose.model('work',workSchema)
