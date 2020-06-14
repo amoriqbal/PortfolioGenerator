@@ -12,6 +12,7 @@ const model=mongoose.model('user',userSchema);
 
 function defaultValue(){
     return new model({
+        uname:"",
         email:"",
         pass:"",
         meta:meta.defaultValue()

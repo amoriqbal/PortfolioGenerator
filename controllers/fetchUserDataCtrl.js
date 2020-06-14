@@ -1,4 +1,4 @@
-const userModel=require("../models/user")
+const userModel=require("../models/user").model
 
 const fetchUser=async (user)=>{
     try{
@@ -19,4 +19,8 @@ const fetchUser=async (user)=>{
         throw error
     }
     
+}
+
+module.exports={
+    fetchUser
 }

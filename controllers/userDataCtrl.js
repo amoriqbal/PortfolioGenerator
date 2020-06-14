@@ -5,41 +5,67 @@ const workModel=require('../models/work')
 const qualModel=require('../models/qualification')
 const mongoose=require('mongoose')
 const meta = require('../models/meta')
-const updateUserData = async (user,metadata,replace=false)=>{
+const updateUserData = async (user,metadata)=>{
     try{
-        var user_db=await userModel.findOne({email:user.email})
+        var user_db=await userModel.model.findOne({email:user.email})
         if(!user_db){
             throw new Error("user not in database")
         }
 
         if(metadata){
-            var m=new metaModel(metadata)
+            var m=await metaModel.model.findById(new mongoose.Types.ObjectId(user_db.meta.id))
+            if(!m){
+                m=metaModel.defaultValue();
+                m.name=metadata.name || m.name
+                m.photoURI=metadata.photoURI || m.photoURI
+            }
+            if(meta.name)
+                meta.name=metadata.name
 
-            meta.name=metadata.name || "Mr. Unknown"
+            if(meta.photoURI)
+                meta.photoURI=metadata.photoURI
 
             if(metadata.qualifications){
-                foreach (i in metadata.qualifications);{
-                    var q=new qualModel(metadata.qualifications[i]).save()
-                    m.qualifications+=mongoose.Types.ObjectId(q.id)
+                for(var i =0;i< m.qualifications.length;i++){
+                    var q=await qualModel.findById(new mongoose.Types.ObjectId(m.qualifications[i]))
+                    await q.remove()
+                }
+                for(var i =0;i< metadata.qualifications.length;i++){
+                    var q=await (new qualModel(metadata.qualifications[i])).save()
+                    m.qualifications.push(mongoose.Types.ObjectId(q.id))
                 }
             }
             
             if(metadata.works){
-                foreach (i in metadata.works);{
-                    var q=new workModel(metadata.works[i]).save()
-                    m.works+=mongoose.Types.ObjectId(q.id)
+                for(var i =0;i< m.works.length;i++){
+                    var q=await workModel.findById(new mongoose.Types.ObjectId(m.works[i]))
+                    await q.remove()
+                }
+                for(var i =0;i<metadata.works.length;i++){
+                    var q=await (new workModel(metadata.works[i])).save()
+                    m.works.push(mongoose.Types.ObjectId(q.id))
                 }
             }
 
             if(metadata.achievements){
-                foreach (i in metadata.achievements);{
-                    var q=new achModel(metadata.achievements[i]).save()
-                    m.achievements+= mongoose.Types.ObjectId(q.id)
+                for(var i =0;i< m.achievements.length;i++){
+                    var q=await achModel.findById(new mongoose.Types.ObjectId(m.achievements[i]))
+                    await q.remove()
+                }
+                for(var i =0;i<metadata.achievements.length;i++){
+                    m.achievements=[]
+                    var q=new achModel(metadata.achievements[i])
+                    var saved=await q.save()
+                    console.log("DESCRIPTION::",q.description)
+                    console.log("SAVED ID::",saved.id)
+                    m.achievements.push(new mongoose.Types.ObjectId(saved.id))
                 }
             }
-            m.save()
+            m= await m.save()
+            user_db.meta=new mongoose.Types.ObjectId(m.id)
+            await user_db.save()
         }
-        
+        return user_db
     } catch(error){
         console.log(error)
         throw error;
@@ -49,6 +75,9 @@ const updateUserData = async (user,metadata,replace=false)=>{
 const insertNewUser = async (user)=>{
     try{
         var userFromDb=await userModel.model.find({email:user.email})
+        if(!userFromDb){
+            userFromDb=await userModel.model.find({uname:user.uname})
+        }
         console.log("reached1")
     }catch(x){
         console.log("Error in fetching data from db\n")
@@ -70,5 +99,5 @@ const insertNewUser = async (user)=>{
 
 module.exports={
     insertNewUser,
-    updateMetadata
+    updateUserData
 }
