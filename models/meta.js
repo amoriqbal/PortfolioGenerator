@@ -4,6 +4,7 @@ const work = require('./work')
 const achievement=require('./achievement')
 
 const metaScahema=mongoose.Schema({
+    template:String,
     name:String,
     qualifications:[{type:mongoose.Types.ObjectId,ref:'qualification'}],
     achievements:[{type:mongoose.Types.ObjectId,ref:'achievement'}],
@@ -15,6 +16,7 @@ const model=mongoose.model('meta',metaScahema)
 
 function defaultValue(){
     return new model({
+        template:"TemplateBase",
         name:"Mr.Unknown",
         qualifications:[],
         achievements:[],
