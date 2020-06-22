@@ -16,13 +16,13 @@ mongoose.connect(config.mongodbURI,{
     throw error
 }
 const app=express()
-app.use(cookieSession({
+/*app.use(cookieSession({
     name:session,
     keys:[config.sessionKey],
     maxAge:24*60*60*1000
-}))
+}))*/
 app.use(bodyParser.json())
-app.use(express.static('/public'))
+app.use('/api/public',express.static('public'))
 
 app.use(routes)
 app.listen(config.port,(error)=>{
