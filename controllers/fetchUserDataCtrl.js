@@ -1,9 +1,8 @@
-const userModel=require("../models/user").model
-const metaModel=require("../models/meta").model
+const userModel=require("../models/user")
+const metaModel=require("../models/meta")
 const achModel=require("../models/achievement")
 const workModel=require("../models/work")
 const qualModel=require("../models/qualification")
-const meta = require("../models/meta")
 const mongoose=require("mongoose")
 
 const fetchUser=async (user)=>{

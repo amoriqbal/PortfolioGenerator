@@ -4,18 +4,17 @@ const achModel=require('../models/achievement')
 const workModel=require('../models/work')
 const qualModel=require('../models/qualification')
 const mongoose=require('mongoose')
-const meta = require('../models/meta')
 const updateUserData = async (user,metadata)=>{
     try{
-        var user_db=await userModel.model.findOne({email:user.email})
+        var user_db=await userModel.findOne({email:user.email})
         if(!user_db){
             throw new Error("user not in database")
         }
 
         if(metadata){
-            var m=await metaModel.model.findById(new mongoose.Types.ObjectId(user_db.meta.id))
+            var m=await metaModel.findById(new mongoose.Types.ObjectId(user_db.meta.id))
             if(!m){
-                m=metaModel.defaultValue();
+                m=new metaModel();
                 m.name=metadata.name || m.name
                 m.photoURI=metadata.photoURI || m.photoURI
             }
@@ -74,9 +73,9 @@ const updateUserData = async (user,metadata)=>{
 
 const insertNewUser = async (user)=>{
     try{
-        var userFromDb=await userModel.model.find({email:user.email})
+        var userFromDb=await userModel.find({email:user.email})
         if(!userFromDb){
-            userFromDb=await userModel.model.find({uname:user.uname})
+            userFromDb=await userModel.find({uname:user.uname})
         }
         console.log("reached1")
     }catch(x){
@@ -87,7 +86,7 @@ const insertNewUser = async (user)=>{
         throw new Error("This user is already registered")
     }
     try{
-    var userDoc=userModel.defaultValue()
+    var userDoc=new userModel()
     userDoc=await Object.assign(userDoc,user)
     return await userDoc.save()
     }catch(x){
