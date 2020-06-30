@@ -26,6 +26,7 @@ app.use(passport.session())
 app.use(bodyParser.json())
 
 app.use('/api/public',express.static('public'))
+app.use(routes)
 
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets
@@ -39,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'PortfolioGeneratorClient', 'build', 'index.html'));
     });
   }
-app.use(routes)
+
 app.listen(config.port,(error)=>{
     if(error){
         console.log(error)

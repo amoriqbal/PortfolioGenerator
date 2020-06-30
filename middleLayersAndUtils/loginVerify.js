@@ -2,6 +2,7 @@ const userModel=require('../models/user')
 
 module.exports=async function(req,res,next){
     var user_db
+    var user = req.user
     try{
         if(!user){
             throw new Error("user undefined")

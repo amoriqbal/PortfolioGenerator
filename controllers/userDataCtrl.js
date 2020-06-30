@@ -59,8 +59,6 @@ const updateUserData = async (user,metadata)=>{
                     
                     var q=new achModel(metadata.achievements[i])
                     var saved=await q.save()
-                    console.log("DESCRIPTION::",q.description)
-                    console.log("SAVED ID::",saved.id)
                     m.achievements.push(new mongoose.Types.ObjectId(saved.id))
                 }
             }
