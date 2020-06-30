@@ -1,6 +1,7 @@
 const Router=require('express').Router()
 const {insertNewUser, updateUserData}=require('../controllers/userDataCtrl')
 const validateUser=require('../middleLayersAndUtils/loginVerify')
+const loginVerify = require('../middleLayersAndUtils/loginVerify')
 
 /*Router.post("/insertuser", async (req,res)=>{
     //res.send("hi")
@@ -14,7 +15,7 @@ const validateUser=require('../middleLayersAndUtils/loginVerify')
     }
 })*/
 
-Router.post("/updateuserdata", async (req,res)=>{
+Router.post("/updateuserdata",loginVerify, async (req,res)=>{
     try{
         console.log(JSON.stringify(req.user))
         await updateUserData(req.user,req.body.meta)
