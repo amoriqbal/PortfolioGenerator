@@ -11,8 +11,9 @@ const fetchUser=async (user)=>{
         if(!user){
             throw new Error("user undefined")
         }
-        if(user.email)
-            user_db=await userModel.findOne({email:user.email})
+        if(user.googleId){
+            user_db=await userModel.findOne({googleId:user.googleId})
+        }
         else if(user.uname)
             user_db=await userModel.findOne({uname:user.uname})
         else throw new Error("No username or email found")

@@ -6,40 +6,43 @@ const qualModel=require('../models/qualification')
 const mongoose=require('mongoose')
 const updateUserData = async (user,metadata)=>{
     try{
-        var user_db=await userModel.findOne({email:user.email})
+        var user_db=await userModel.findOne({uname:user.uname})
         if(!user_db){
             throw new Error("user not in database")
         }
 
         if(metadata){
-            var m=await metaModel.findById(new mongoose.Types.ObjectId(user_db.meta.id))
+            var m=await metaModel.findById(new mongoose.Types.ObjectId(user_db.meta))
             if(!m){
                 m=new metaModel();
                 m.name=metadata.name || m.name
                 m.photoURI=metadata.photoURI || m.photoURI
             }
-            if(meta.name)
-                meta.name=metadata.name
+            if(metadata.name)
+                m.name=metadata.name
 
-            if(meta.photoURI)
-                meta.photoURI=metadata.photoURI
+            if(metadata.photoURI)
+                m.photoURI=metadata.photoURI
 
             if(metadata.qualifications){
                 for(var i =0;i< m.qualifications.length;i++){
                     var q=await qualModel.findById(new mongoose.Types.ObjectId(m.qualifications[i]))
                     await q.remove()
                 }
+                m.qualifications=[]
                 for(var i =0;i< metadata.qualifications.length;i++){
                     var q=await (new qualModel(metadata.qualifications[i])).save()
                     m.qualifications.push(mongoose.Types.ObjectId(q.id))
                 }
             }
             
+            
             if(metadata.works){
                 for(var i =0;i< m.works.length;i++){
                     var q=await workModel.findById(new mongoose.Types.ObjectId(m.works[i]))
                     await q.remove()
                 }
+                m.works=[]
                 for(var i =0;i<metadata.works.length;i++){
                     var q=await (new workModel(metadata.works[i])).save()
                     m.works.push(mongoose.Types.ObjectId(q.id))
@@ -51,8 +54,9 @@ const updateUserData = async (user,metadata)=>{
                     var q=await achModel.findById(new mongoose.Types.ObjectId(m.achievements[i]))
                     await q.remove()
                 }
+                m.achievements=[]
                 for(var i =0;i<metadata.achievements.length;i++){
-                    m.achievements=[]
+                    
                     var q=new achModel(metadata.achievements[i])
                     var saved=await q.save()
                     console.log("DESCRIPTION::",q.description)
@@ -71,7 +75,7 @@ const updateUserData = async (user,metadata)=>{
     }
 }
 
-const insertNewUser = async (user)=>{
+/*const insertNewUser = async (user)=>{
     try{
         var userFromDb=await userModel.find({email:user.email})
         if(!userFromDb){
@@ -93,10 +97,10 @@ const insertNewUser = async (user)=>{
         console.log("Error in saving userdata\n")
         throw x
     }
-}
+}*/
 
 
 module.exports={
-    insertNewUser,
+    //insertNewUser,
     updateUserData
 }

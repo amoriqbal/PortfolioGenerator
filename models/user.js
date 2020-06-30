@@ -1,13 +1,31 @@
 const mongoose=require('mongoose')
 const meta=require('./meta')
 
+/*const authTypes={
+    auth:
+}
+const authValidator=(v)=>{
+    if(!v){
+        return false;
+    }
+    if(Object.keys(v).length===0){
+        return false;
+    }
+
+    k=Object.keys(v)
+    for(var i=0;i<k.length;i++){
+        for()
+    }
+}*/
+
 const userSchema= new mongoose.Schema({
     uname:{type:String, default:"anonymous"},
-    email:{type:String, default:"anonymous@something.com"},
-    pass:{type:String, default:"password"},
-    meta:{type:mongoose.Types.ObjectId,ref:'meta'}// add default value. default:new mongoose.Types.ObjectId(0) 
+    emails:[String],
+    googleId:String,
+    meta:{type:mongoose.Types.ObjectId,ref:'meta',default:null}// add default value. default:new mongoose.Types.ObjectId(0) 
 })
 
 const model=mongoose.model('user',userSchema);
 
 module.exports=model
+module.exports.localAuth

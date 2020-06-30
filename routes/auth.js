@@ -1,16 +1,28 @@
-const { Router } = require('express')
+const passport = require('passport')
+const Router= require('express').Router()
 
+  Router.get(
+    '/google',
+    passport.authenticate('google', {
+      scope: ['profile', 'email']
+    })
+  );
 
-Router().get('/google',(req,res)=>{
+  Router.get(
+    '/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/portfolio');
+    }
+  );
 
-})
+  Router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
 
-Router().get('/google/callback',(req,res)=>{
+  Router.get('/current_user', (req, res) => {
+    res.send(req.user);
+  });
 
-})
-
-Router().get('/logout',(req,res)=>{
-    req.session=null
-})
-
-module.exports = Router
+  module.exports=Router

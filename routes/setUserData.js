@@ -1,7 +1,8 @@
 const Router=require('express').Router()
 const {insertNewUser, updateUserData}=require('../controllers/userDataCtrl')
+const validateUser=require('../middleLayersAndUtils/loginVerify')
 
-Router.post("/insertuser", async (req,res)=>{
+/*Router.post("/insertuser", async (req,res)=>{
     //res.send("hi")
     try{
         const user=req.body.user
@@ -11,11 +12,12 @@ Router.post("/insertuser", async (req,res)=>{
         console.log("Error inserting new user")
         res.status(400).send({error:error.message})
     }
-})
+})*/
 
 Router.post("/updateuserdata", async (req,res)=>{
     try{
-        await updateUserData(req.body.user,req.body.meta)
+        console.log(JSON.stringify(req.user))
+        await updateUserData(req.user,req.body.meta)
         res.sendStatus(200)
     } catch (error) {
         console.log(error)
