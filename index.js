@@ -26,7 +26,7 @@ app.use(passport.session())
 app.use(bodyParser.json())
 
 app.use('/api/public',express.static('public'))
-app.use('/',express.static('PortfolioGeneratorClient/build'))
+app.use('/',express.static('client/build'))
 app.use(routes)
 app.listen(config.port,(error)=>{
     if(error){
