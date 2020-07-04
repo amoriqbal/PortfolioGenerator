@@ -6,6 +6,7 @@ const achievement=require('./achievement')
 const metaScahema=mongoose.Schema({
     template:{type:String,default:"TEMPLATE_BASE"},
     name:{type:String,default:"anonymous"},
+    about:{type:String,default:""},
     qualifications:[{type:mongoose.Types.ObjectId,ref:'qualification'}],
     achievements:[{type:mongoose.Types.ObjectId,ref:'achievement'}],
     works:[{type:mongoose.Types.ObjectId,ref:'work'}],

@@ -5,7 +5,8 @@ const qualificationSchema= new mongoose.Schema({
     field:String,
     startDate:Date,
     endDate:Date,
-    grade:String
+    grade:String,
+    institution:String
 })
 
 module.exports=mongoose.model('qualification',qualificationSchema)

@@ -18,11 +18,7 @@ const updateUserData = async (user,metadata)=>{
                 m.name=metadata.name || m.name
                 m.photoURI=metadata.photoURI || m.photoURI
             }
-            if(metadata.name)
-                m.name=metadata.name
-
-            if(metadata.photoURI)
-                m.photoURI=metadata.photoURI
+            await Object.assign(m,metadata)
 
             if(metadata.qualifications){
                 for(var i =0;i< m.qualifications.length;i++){
